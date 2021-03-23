@@ -256,3 +256,11 @@ Updating API Manager is now carried out during the application of the latest API
 * Policy Studio project upgrades. Importing an existing API Manager Policy Studio project will upgrade API Manager. The upgrade is also applied when creating a new project from an existing `fed` file.
 * API Manager `.fed` files can be upgraded using the [upgradeconfig](/docs/apim_installation/apigw_upgrade/upgrade_analytics#upgradeconfig-options) script.
 * The [projupgrade](/docs/apim_reference/devopstools_ref#projupgrade-command-options) script will apply API Manager updates to any existing projects.
+
+## Restoring from Backup
+
+When running the ./update_apigw.sh script users have the option of specifying a backup directory with specifying the --backup_dir option.  This will create a copy of your existing installation directory, if there is a problem with the update then you will be able to use the content of the backup to restore to the point before starting the update.  Note: this will not back up the data in Cassandra or any of the external databases or storage.  
+
+If there has a been significant changes to the configuration since the backup (for example changing the group configuration passphrase) you may not be to restore to a point where the external data will be compatible with the backup.
+
+Note: if you are updating to March2020 version or after you are recommended to run the kps re-encrypt script if you run this you will not be able to restore to a previous backup as some of the data will not be able to read by the older configuration.
