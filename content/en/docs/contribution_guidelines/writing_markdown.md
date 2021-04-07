@@ -11,6 +11,8 @@ This docs-as-code implementation uses the [Hugo](https://gohugo.io/) static site
 
 If you are contributing using GitHub or Git CLI, use these guidelines to ensure that your Markdown renders correctly. You do not need to use these guidelines if you are contributing using Netlify CMS.
 
+Test
+
 ## Editor recommendations
 
 If you are editing Markdown locally, we recommend using VSCode with the [`markdownlint` extension](https://github.com/DavidAnson/vscode-markdownlint).
