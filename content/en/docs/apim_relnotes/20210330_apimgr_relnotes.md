@@ -265,7 +265,6 @@ The following are known issues for this update.
 |RDAPI-23470|STARTTLS broken in most SMTP modalities|
 |RDAPI-23471|if custom API Proxy broker, customized backend service url is not kept in serviceprofiles in .dat export|
 |RDAPI-23473|Packet sniffing|
-|RDAPI-23549|No VAPI matched request after upgrade from 7.5.3 SP12 using inbound security policy|
 |RDAPI-23553|JWT Decrypt filter not failing with invalid key|
 |RDAPI-23557|TraceRedactor error:java.lang.RuntimeException: regex error with code: -10|
 |RDAPI-23571|OAuth access tokens can be refreshed even after expiration when Cassandra TTL is NULL|
@@ -306,6 +305,36 @@ Warning: org.apache.xerces.jaxp.SAXParserImpl$JAXPSAXParser: Property 'http://ww
 These new properties were added in JAXP 1.5 specification, which is supported by the embedded implementation in the JRE but not supported yet in Xerces-J Apache implementation. These are harmless warning messages, which are written to the error console instead of throwing an exception if a property is not supported by the Apache Xerces-J implementation.
 
 Related Issue: RDAPI-22218
+
+### No VAPI matched request after upgrade from 7.5.3 SP12 using inbound security policy
+
+If the following errors are present in the API Gateway traces when the instance is started, then there is a duplicate remote host configuration in API Gateway and API Manager configurations.
+
+Duplicate remote host error:
+
+```
+ERROR 11/Mar/2021:11:10:27.207 [6dc4:000000000000000000000000] Failed to configure module:
+...
+com.vordel.api.common.ForbiddenException: PolicyStudio-registered remote host with name 'backend' and port '8080' already exists
+ at com.vordel.apiportal.api.portal.controller.RemoteHostController.checkRemoteHost(RemoteHostController.java:616)
+ at com.vordel.apiportal.api.portal.controller.RemoteHostController.updateRemoteHost(RemoteHostController.java:188)
+ at com.vordel.apiportal.config.PortalConfiguration.addRemoteHosts(PortalConfiguration.java:354)
+ at com.vordel.apiportal.config.PortalConfiguration.configure(PortalConfiguration.java:295)
+```
+
+Failure to configure circuit for VAPI error:
+
+```
+ERROR 11/Mar/2021:11:21:11.096 [6fb9:000000000000000000000000] Error configuring circuit for Front End (Proxy) API called [AA Petstore], Version [1.0.5], Organization [c33c32c5-f32e-4e38-8c52-1f149b7ebe9d]
+ERROR 11/Mar/2021:11:21:11.096 [6fb9:000000000000000000000000] Error processing VAPI change event EventTimestamp [entityType=VIRTUALIZED_API, entityId=da281a2f-4e4d-4ce0-8747-a17614978a7f, eventType=CREATEUPDATE]:
+java.lang.NullPointerException
+ at com.vordel.apiportal.runtime.AuthenticationPolicySecurityDevice.exists(AuthenticationPolicySecurityDevice.java:182)
+ at com.vordel.apiportal.runtime.AuthenticationPolicySecurityDevice.configure(AuthenticationPolicySecurityDevice.java:73)
+```
+
+To circumvent this problem, edit the API Gateway server configuration using Policy Studio and remove the duplicate remote host definition from **Environment Configuration > Listeners**, then deploy the updated configuration back to the server or servers in a group.
+
+Related Issue: RDAPI-23549
 
 ## Update a classic (non-container) deployment
 
