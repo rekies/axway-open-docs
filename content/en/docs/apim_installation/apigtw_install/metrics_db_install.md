@@ -167,12 +167,19 @@ Latest schema version:002-leaf
 Schema successfully upgraded to:002-leaf
 ```
 
-{{< alert title="Example: Setup for TLS with MySQL Server" color="primary" >}}JDBC drivers can support additional parameters as part of the JDBC URL string. Which options are supported by a respective JDBC driver depends on the vendor and version.<p><p>In example, for **MySQL** the TLS parameters used by a client like API-Manager or Node-Manager to connect to a server can be enforced to make sure database connections will only be established if the database server offers the required capabilities.<p>
-More details can be found at MySQL Connector/J 5.1 Developer Guide [Connection URL Syntax](https://dev.mysql.com/doc/connector-j/5.1/en/connector-j-reference-url-format.html) and [Configuration Properties for Connector/J - Security](https://dev.mysql.com/doc/connector-j/5.1/en/connector-j-connp-props-security.html).<p>
-The following example JDBC string illustrates TLS configuration for AWS RDS MySQL to require TLS 1.2, the server certificate must not be checked for a valid trust chain:<p>
+Example: Setup for TLS with MySQL Server.
+
+JDBC drivers can support additional parameters as part of the JDBC URL string. Which options are supported by a respective JDBC driver depends on the vendor and version.
+
+In a MySQL database, the TLS parameters used by a client, like API Manager or Node Manager, to connect to a server can be enforced to ensure that database connections will only be established if the database server offers the required capabilities.
+
+The following example JDBC string shows a TLS configuration for AWS RDS MySQL to require TLS 1.2. The server certificate must not be checked for a valid trust chain:
+
 ```
 jdbc:mysql://dba3s-np-rds-apimgateway-dev-int-mysql.cpqdyezqyf7p.eu-central-1.rds.amazonaws.com:3306/apimetrics?useSSL=true&requireSSL=true&verifyServerCertificate=false
-```{{< /alert >}}
+```
+
+For more information, see [Connection URL Syntax](https://dev.mysql.com/doc/connector-j/5.1/en/connector-j-reference-url-format.html) and [Configuration Properties for Connector/J - Security](https://dev.mysql.com/doc/connector-j/5.1/en/connector-j-connp-props-security.html).
 
 #### Install a database
 
